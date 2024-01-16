@@ -76,7 +76,7 @@ git config --list
     （指令中`origin`是自定的，一般情况下均规范为origin。`SSH`远程仓库的地址）
 3. 推送到远程仓库：`git push -u <远程主机名> <本地分支名>:<远程分支名>`
    （-u是指关联这两个分支，在之后的push中可以直接用`git push`）
-### ## Git常用命令  
+## Git常用命令  
 
 ### 基础操作指令
 Git工作目录下对文件的**修改**（增加、删除、更新）会存在几个状态，这些**修改**的状态会随着我们执行Git命令而发生变化。
@@ -85,40 +85,97 @@ Git工作目录下对文件的**修改**（增加、删除、更新）会存在�
   <img src="Images/5.png">
 </center>
 
-### 查看修改的状态(status)
+
+#### 查看修改的状态(status)
 - 作用：查看*工作区*（*workspace*）或者*暂存区*(*index*)的状态。
 
 - 命令形式：`git status`  
 
-### 将工作区内容添加到暂存区(add)
+#### 将工作区内容添加到暂存区(add)
 - 作用：添加工作区一个或者多个文件的修改到暂存区。
 - 命令形式：`git add 单个文件名|通配符`
     - 将所有修改加入暂存区：`git add .`
-    - 若需要取消git对某些文件或者文件夹更改的跟踪，需要在项目目录下新建`.gitignore`文件，并写入需要取消跟踪的文件的相对路径（详细内容见[2.3.6 添加文件至忽略列表](#236-添加文件至忽略列表)）。
+    - 若需要取消git对某些文件或者文件夹更改的跟踪，需要在项目目录下新建`.gitignore`文件，并写入需要取消跟踪的文件的相对路径。
   
-### 提交暂存区到本地仓库（commit）
+#### 提交暂存区到本地仓库（commit）
 - 作用：提交暂存区内容到本地仓库的当前分支
 - 命令形式：`git commit -m "注释内容"`
 
 >如果注释内容编写错误，需要更改，可以使用指令**git commit --amend**  
 
-### 查看提交日志（log）
+#### 查看提交日志（log）
 - 作用：查看提交记录。
 - 命令形式：`git log [option]`
     - options
         - `--all` 显示所有分支
         - `--pretty=ontline` 将提交信息显示为一行
         - `--graph` 以图的形式显示
->  :monkey::在2.1.2 为常用指令配置别名`**git-log**就包含了这个参数，所以后续可以直接使用指令**git-log**替代
 
 
-### 版本回退(reset)
+#### 版本回退(reset)
 - 作用：回退版本，可以指定退回某一次提交的版本。
-- 命令形式：`git reset --hard commitID`
-    commitID可以用`git-log`或者`git log`指令查看
->如果要查看已经删除的记录，可以使用`git reflog`
+- 命令形式：`git reset [--soft | --mixed | --hard] [HEAD]`
 
-### 添加文件至忽略列表
+`--soft`**只进行对commit记录信息的回退，不影响工作区的文件。（commit过的工作文件会被放入暂存区（已add），未保存文件或者入栈文件不被放入暂存区（未add））**
+
+##### 实验
+在工作区创建一个文本
+<table>
+  <tr>
+      <td><img src="Images/image.png"  /></td>
+      <td><img src="Images/image-1.png"  /></td>
+  </tr>
+  
+  <tr>
+      <td><img src="Images/image-2.png"  /></td>
+      <td><img src="Images/image-3.png"  /></td>
+  </tr>
+</table>
+
+在第三次修改的基础上创建临时内容（未commit或存入栈中）
+
+
+<table>
+  <tr>
+      <td><img src="Images/image-5.png"  /></td>
+      <td><img src="Images/image-4.png"  /></td>
+  </tr>
+</table>
+
+假设现在需要回滚到第二次commit,则在Git Bash中执行`git reset --soft <第二次commitId>`得到如下结果
+<center>
+  <img src="Images/image-8.png">
+</center>
+<br>
+可以看到除了第二次commit，之后的commit记录被删除，需要注意的是，之后的commit数据没有被删除，而是存在*暂存的更改*中。
+<center>
+  <img src="Images/image-7.png">
+</center>
+
+<br>
+而*更改*中存放的就是在第三次修改的基础上创建临时内容
+<center>
+  <img src="Images/image-9.png">
+</center>
+<br>
+
+`--mixed`为默认，可以不用带该参数，**将当前暂存区的内容和还原点时间线之后的commit内容合并，并清空暂存区内容。**
+还是以上面的实验为例，只是把Git Bash 命令换为行`git reset --mixed <第二次commitId>` 或`git reset <第二次commitId>`将得到下面的结果
+<center>
+  <img src="Images/image-10.png">
+</center>
+
+显然，第二次更改后的所有commit以及第三次修改的基础上创建临时内容被合并，且未被add。
+
+`--hard`**删除还原点之前的所有信息（包括工作区中所有未提交的修改内容）。**
+
+<center>
+  <img src="Images/image-11.png">
+</center>
+
+如果不慎误操作删除了已经commit的数据，可以使用`git reflog`要查看已经删除的commitId，再使用`reset` 恢复版本。
+>未被commit的数据是无法恢复的
+#### 添加文件至忽略列表
 在绝大部分情况下，并不想有些文件被跟踪，这时可以在git托管的目录下创建文件`.gitignore`，并在文件中写入不想被跟踪的文件的相对路径。
 
 ## 分支
@@ -128,7 +185,7 @@ Git工作目录下对文件的**修改**（增加、删除、更新）会存在�
 </center>
 
 ### 分支的基本操作
-- 查看本地分支：`git branch`
+- 查看本地分支：`git branch` 
 - 创建本地分支：`git branch 分支名 `   
 - 切换分支：`git checout 分支名`
   - *我们可以创建一个分支并切换到该分支：`git checkout -b 分支名`*
