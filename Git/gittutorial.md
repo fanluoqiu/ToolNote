@@ -81,9 +81,7 @@ git config --list
 ### 基础操作指令
 Git工作目录下对文件的**修改**（增加、删除、更新）会存在几个状态，这些**修改**的状态会随着我们执行Git命令而发生变化。
 
-<center>
-  <img src="Images/5.png">
-</center>
+
 
 
 #### 查看修改的状态(status)
@@ -119,7 +117,7 @@ Git工作目录下对文件的**修改**（增加、删除、更新）会存在�
 `--soft`**只进行对commit记录信息的回退，不影响工作区的文件。（commit过的工作文件会被放入暂存区（已add），未保存文件或者入栈文件不被放入暂存区（未add））**
 
 ##### 实验
-在工作区创建一个文本
+我们在工作区创建一个文本
 <table>
   <tr>
       <td><img src="Images/image.png"  /></td>
@@ -208,5 +206,9 @@ Git工作目录下对文件的**修改**（增加、删除、更新）会存在�
 
 
 
+## 常见问题
+
+### 本地git通过ssh链接github时报：time out
+[解决办法](https://blog.csdn.net/the__future/article/details/130038818)
 
 

@@ -189,6 +189,60 @@ toc:
   </tr>
 </table>
 
+单元格合并
+
+跨行合并 , 要在 <td> 标签中 使用 rowspan 属性：
+
+```html
+<table>
+  <tr>
+    <td  rowspan="2"><center>cell1</center></td>
+    <td><center>cell2</center></td>
+    <td><center>cell3</center></td>
+  </tr>
+  <tr>
+    <td><center>cell4</center></td> 
+    <td><center>cell5</center></td> 
+  </tr>
+</table>
+```
+效果如下：
+<table>
+  <tr>
+    <td  rowspan="2"><center>cell1</center></td>
+    <td><center>cell2</center></td>
+    <td><center>cell3</center></td>
+  </tr>
+  <tr>
+    <td><center>cell4</center></td> 
+    <td><center>cell5</center></td> 
+  </tr>
+</table>
+跨列合并 , 要在 <td> 标签中 使用 colspan 属性：
+
+```html
+<table>
+  <tr>
+    <td  colspan="2"><center>cell1</center></td>
+  </tr>
+  <tr>
+    <td><center>cell2</center></td> 
+    <td><center>cell3</center></td> 
+  </tr>
+</table>
+```
+
+效果如下：
+<table>
+  <tr>
+    <td  colspan="2"><center>cell1</center></td>
+  </tr>
+  <tr>
+    <td><center>cell2</center></td> 
+    <td><center>cell3</center></td> 
+  </tr>
+</table>
+
 
 ### 字体属性设置
 Markdown 通过简单标记语法，使普通文本内容具有一定格式。但它本身不支持修改字体、字号与颜色等功能的。
